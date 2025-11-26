@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tests - Password Generator</title>
+  <style>body{font-family:Arial;padding:20px;background:#0f1724;color:#e6eef8} .ok{color:lightgreen}.bad{color:#ff7a7a}</style>
+</head>
+<body>
+  <h2>Quick browser tests</h2>
+  <div id="results"></div>
+  <script>
+  const results = document.getElementById('results');
+  function ok(msg){ const d=document.createElement('div'); d.className='ok'; d.textContent='OK: '+msg; results.appendChild(d)}
+  function bad(msg){ const d=document.createElement('div'); d.className='bad'; d.textContent='FAIL: '+msg; results.appendChild(d)}
+
+  (async function(){
+    try{
+      // Test crypto deriveKey/encrypt/decrypt by importing script.js helpers via eval fetch
+      const res = await fetch('script.js'); const js = await res.text();
+      // extract functions via simple wrapper
+      eval(js + '\nwindow._helpers={deriveKey:deriveKey,encryptJSON:encryptJSON,decryptJSON:decryptJSON};');
+      const h = window._helpers;
+      const sample = [{id:1,name:'x',pw:'Abc123!'}];
+      const pass='test-pass-123';
+      const enc = await h.encryptJSON(sample, pass);
+      ok('encrypt produced data');
+      const dec = await h.decryptJSON(enc, pass);
+      if(JSON.stringify(dec)===JSON.stringify(sample)) ok('encrypt/decrypt roundtrip'); else bad('roundtrip mismatch');
+
+      // localStorage tests
+      localStorage.setItem('pw_notes', JSON.stringify(sample));
+      const loaded = JSON.parse(localStorage.getItem('pw_notes')||'null');
+      if(loaded && loaded[0].pw==='Abc123!') ok('localStorage save/load'); else bad('localStorage mismatch');
+
+      ok('All quick checks done');
+    }catch(e){bad('Exception: '+e.message)}
+  })();
+  </script>
+</body>
+</html>

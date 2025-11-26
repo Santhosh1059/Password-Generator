@@ -1,0 +1,78 @@
+:root{
+  --bg: #0f1724;
+  --card: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  --accent: #7c5cff;
+  --muted: #98a0b3;
+  --glass: rgba(255,255,255,0.04);
+}
+*{box-sizing:border-box}
+html,body,#app{height:100%}
+body{
+  margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(124,92,255,0.12), transparent),
+              radial-gradient(900px 400px at 90% 90%, rgba(28,200,140,0.06), transparent),
+              var(--bg);
+  color:#e6eef8;
+  -webkit-font-smoothing:antialiased;
+  padding:40px;
+}
+.app{
+  max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:start;
+}
+.hero{grid-column:1/3;margin-bottom:10px}
+.hero h1{margin:0 0 6px 0;font-size:28px}
+.hero p{margin:0;color:var(--muted)}
+.generator{background:var(--card);border-radius:14px;padding:22px;box-shadow:0 6px 30px rgba(2,6,23,0.6)}
+.panel{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.output{flex:1;padding:18px;border-radius:10px;background:var(--glass);font-weight:700;font-size:18px;letter-spacing:1px;cursor:pointer}
+.actions{display:flex;gap:8px;margin-left:12px}
+.btn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:inherit;padding:8px 12px;border-radius:8px;cursor:pointer}
+.btn.primary{background:linear-gradient(90deg,var(--accent),#4dd0e1);border:none;color:#061026}
+.btn.link{background:transparent;border:none;color:var(--muted);cursor:pointer}
+.controls{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;align-items:center;gap:12px}
+.row.small{justify-content:space-between}
+.checkboxes{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.strengthRow{display:flex;align-items:center;gap:12px}
+.meter{width:180px;height:10px;background:rgba(255,255,255,0.04);border-radius:999px;overflow:hidden}
+.meter span{display:block;height:100%;width:30%;background:linear-gradient(90deg,#ff7a7a,#ffd36b);transition:width .18s ease}
+#strengthText{min-width:60px;color:var(--muted)}
+.saveRow{display:flex;gap:8px}
+.saveRow input{flex:1;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+.notes{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:14px;border-radius:12px;position:sticky;top:40px;height:fit-content}
+.notesHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+#notesList{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.note{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;display:flex;justify-content:space-between;align-items:center}
+.note .meta{display:flex;flex-direction:column}
+.note .actions{display:flex;gap:8px}
+.note button{padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted);cursor:pointer}
+.smallText{font-size:12px;color:var(--muted)}
+.hiddenFile{display:none}
+.tabsRow{display:flex;gap:8px;align-items:center}
+.historyFilters{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.smallNumber{width:72px}
+
+/* Focus styles for accessibility */
+:focus{outline:4px solid rgba(124,92,255,0.18);outline-offset:2px}
+
+.sessionLock{display:flex;gap:8px;align-items:center;margin-top:8px}
+.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.6)}
+.modal .card{background:var(--card);padding:16px;border-radius:12px;max-width:500px;width:90%}
+.hidden{display:none}
+.toasts{position:fixed;right:20px;bottom:20px;z-index:60}
+.toasts .note{margin-bottom:8px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,0.03);display:flex;gap:8px;align-items:center}
+.toasts .note button{background:transparent;border:none;color:var(--muted);cursor:pointer}
+
+/* Modal focus styles and inner layout */
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.6)}
+.modal[aria-hidden="false"]{display:flex}
+.modal .card{background:var(--card);padding:16px;border-radius:12px;max-width:500px;width:90%}
+.modal .card h3{margin:0 0 8px}
+.modal .card p{margin:0 0 12px;color:var(--muted)}
+.modal .card .actions{display:flex;gap:8px;justify-content:flex-end}
+.persistLabel{margin-left:8px}
+
+@media (max-width:960px){
+  .app{grid-template-columns:1fr; padding:20px}
+  .notes{position:relative}
+}

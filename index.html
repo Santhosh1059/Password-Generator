@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Password Generator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <header class="hero">
+      <h1>Password Generator</h1>
+      <p>Create strong, memorable passwords. Options below update instantly and a notepad in the corner stores your saved passwords.</p>
+    </header>
+
+    <section class="generator">
+        <div class="panel">
+        <label class="output" id="passwordOutput" title="Click to copy" tabindex="0" role="textbox" aria-label="Generated password">••••••••••••</label>
+        <div class="actions">
+          <button id="copyBtn" class="btn" type="button">Copy</button>
+          <button id="regenBtn" class="btn primary" type="button">Regenerate</button>
+        </div>
+      </div>
+
+      <form class="controls" id="controls">
+        <div class="row">
+          <label for="length">Length: <span id="lengthVal">16</span></label>
+          <input type="range" id="length" min="6" max="64" value="16" aria-label="Password length" title="Password length">
+        </div>
+
+        <div class="checkboxes">
+          <label><input type="checkbox" id="lowercase" checked> Include lowercase</label>
+          <label><input type="checkbox" id="uppercase" checked> Include uppercase</label>
+          <label><input type="checkbox" id="numbers" checked> Include numbers</label>
+          <label><input type="checkbox" id="symbols" checked> Include symbols</label>
+        </div>
+
+        <div class="row small">
+          <label for="excludeAmbig">Exclude ambiguous</label>
+          <input type="checkbox" id="excludeAmbig" aria-label="Exclude ambiguous characters" title="Exclude ambiguous characters">
+        </div>
+
+        <div class="strengthRow">
+          <div class="meter" id="strengthMeter"><span></span></div>
+          <div id="strengthText">Strong</div>
+        </div>
+
+        <div class="saveRow">
+          <input id="saveName" placeholder="Name to save (e.g., Email, Bank)" aria-label="Name for saved password" />
+          <button id="saveBtn" class="btn" type="button">Save to Notepad</button>
+        </div>
+
+        <div class="exportRow" aria-live="polite">
+          <label for="encryptToggle"><input type="checkbox" id="encryptToggle"> Export with encryption</label>
+          <input id="encPass" type="password" placeholder="Passphrase for export" aria-label="Encryption passphrase" />
+          <button id="exportBtn" class="btn" type="button">Export Notes</button>
+          <label class="btn" for="importFile" role="button" tabindex="0">Import Notes</label>
+          <input id="importFile" type="file" accept="application/json" class="hiddenFile" aria-hidden="true" />
+          <div class="sessionLock">
+            <input id="sessionPass" type="password" placeholder="Session passphrase" aria-label="Session passphrase" />
+            <button id="unlockBtn" class="btn" type="button">Unlock Session</button>
+            <button id="lockBtn" class="btn" type="button" hidden>Lock Session</button>
+            <label class="persistLabel"><input id="persistEnc" type="checkbox"> Use persistent encryption</label>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <aside class="notes" id="notesPane" role="region" aria-label="Saved passwords and history">
+      <div class="notesHeader">
+  <div class="tabsRow">
+          <button id="tabNotes" class="btn link" aria-pressed="true">Notepad</button>
+          <button id="tabHistory" class="btn link" aria-pressed="false">History</button>
+        </div>
+        <div>
+          <button id="clearNotes" class="btn link">Clear</button>
+        </div>
+      </div>
+      <div id="notesView">
+        <ul id="notesList"></ul>
+      </div>
+      <div id="historyView" hidden>
+        <div class="historyFilters">
+          <input id="histFilter" placeholder="Filter by text or name" aria-label="Filter history" />
+          <label>Min length: <input id="histMinLen" type="number" min="1" max="128" value="0" class="smallNumber" /></label>
+          <label>Min strength: <input id="histMinStr" type="number" min="0" max="100" value="0" class="smallNumber" /></label>
+        </div>
+        <ul id="historyList"></ul>
+      </div>
+    </aside>
+  
+  <!-- Modal and toast containers -->
+  <div id="modalRoot" class="hidden" role="dialog" aria-modal="true" aria-hidden="true"></div>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  </main>
+
+  <script>
+    // Prefer bundled script when available
+    (function(){
+      const bundled = 'dist/bundle.js';
+      fetch(bundled, {method:'HEAD'}).then(()=>{
+        const s = document.createElement('script'); s.src=bundled; document.body.appendChild(s);
+      }).catch(()=>{
+        const s = document.createElement('script'); s.src='script.js'; document.body.appendChild(s);
+      });
+    })();
+  </script>
+</body>
+</html>
